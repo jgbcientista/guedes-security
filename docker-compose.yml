@@ -18,8 +18,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    working_dir: /usr/src/joaoguedesapp
-    container_name: joaoguedesapp
+    working_dir: /usr/src/guedesapp
+    container_name: guedesapp
     restart: on-failure
     env_file: ./.env
     ports:
