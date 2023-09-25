@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import br.com.guedes.security.enums.ProfileEnum;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -32,7 +33,7 @@ public class SecurityConfig {
       .authorizeHttpRequests()
       .requestMatchers("/api/v1/auth/**").permitAll() // nao precisa de token
       .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
-      .requestMatchers(HttpMethod.POST, "/product").hasRole("ROLE_ADMIN")
+      .requestMatchers(HttpMethod.POST, "/product").hasRole(ProfileEnum.ADMIN.getDescription())
       .anyRequest()
       .authenticated()
       .and()

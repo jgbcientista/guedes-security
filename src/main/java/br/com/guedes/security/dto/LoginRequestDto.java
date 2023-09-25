@@ -1,5 +1,7 @@
 package br.com.guedes.security.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequestDto {
-	
-  private String login;
-  
-  private String senha;
+
+	@NotBlank
+	@Size(min = 4, max = 100)
+	private String login;
+
+	@NotBlank
+	@Size(min = 6, max = 100)
+	private String senha;
 }
