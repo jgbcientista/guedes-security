@@ -5,46 +5,48 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.guedes.security.model.AuthResponseDto;
-import br.com.guedes.security.model.LoginRequestDto;
-import br.com.guedes.security.model.RegisterRequestDto;
+import br.com.guedes.security.dto.TokenDto;
+import br.com.guedes.security.dto.LoginRequestDto;
+import br.com.guedes.security.dto.RegisterRequestDto;
 import br.com.guedes.security.model.Role;
-import br.com.guedes.security.model.User;
-import br.com.guedes.security.repository.UserRepository;
+import br.com.guedes.security.model.Usuario;
+import br.com.guedes.security.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-  private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
-  private final JwtService jwtService;
-  private final AuthenticationManager authenticationManager;
+	private final UsuarioRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final JwtService jwtService;
+	private final AuthenticationManager authenticationManager;
 
-  public AuthResponseDto login(LoginRequestDto request) {
-    authenticationManager.authenticate(
-      new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-    );
-    var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-    var jwt = jwtService.generateToken(user);
-    return AuthResponseDto.builder()
-      .token(jwt)
-      .build();
-  }
+	public TokenDto login(LoginRequestDto request) {
 
-  public AuthResponseDto register(RegisterRequestDto request) {
-    var user = User.builder()
-      .firstName(request.getFirstName())
-      .lastName(request.getLastName())
-      .email(request.getEmail())
-      .password(passwordEncoder.encode(request.getPassword()))
-      .role(Role.USER)
-      .build();
-    userRepository.save(user);
-    var jwt = jwtService.generateToken(user);
-    return AuthResponseDto.builder()
-      .token(jwt)
-      .build();
-  }
+		authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getSenha()));
+
+		var user = userRepository.findByLogin(request.getLogin()).orElseThrow();
+
+		var jwt = jwtService.generateToken(user);
+
+		return TokenDto.builder().token(jwt).build();
+	}
+
+	public TokenDto register(RegisterRequestDto request) {
+		var user = Usuario
+				.builder()
+				.nome(request.getNome())
+				.senha(passwordEncoder.encode(request.getSenha()))
+				.login(request.getLogin())
+				.role(Role.USER)
+				.build();
+		
+		userRepository.save(user);
+		
+		var jwt = jwtService.generateToken(user);
+		
+		return TokenDto.builder().token(jwt).build();
+	}
 }

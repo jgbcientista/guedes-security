@@ -13,8 +13,8 @@ public class OpenApiConfig {
     public OpenAPI usersMicroserviceOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                		.title("Brasil Prev API´s")
-                         .description("Projeto do Brasil Prev")
+                		.title("Guedes security")
+                         .description("Arquitetura projeto inicial")
                          .version("1.0"));
     }
 }

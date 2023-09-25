@@ -11,19 +11,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.guedes.security.repository.UserRepository;
+import br.com.guedes.security.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
  
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
   
-  private final UserRepository userRepository;
+  private final UsuarioRepository usuarioRepository;
 
   @Bean
   UserDetailsService userDetailsService() {
-    return username -> userRepository.findByEmail(username)
-      .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    return login -> usuarioRepository.findByLogin(login)
+      .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
   }
 
   @Bean
@@ -43,4 +43,5 @@ public class ApplicationConfig {
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
+  
 }

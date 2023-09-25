@@ -1,4 +1,4 @@
-package br.com.guedes.security.model;
+package br.com.guedes.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequestDto {
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
+
+	private String nome;
+
+	private String login;
+
+	private String senha;
 }

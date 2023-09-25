@@ -27,7 +27,7 @@ public class SecurityConfig {
       .authorizeHttpRequests()
       .requestMatchers("/api/v1/auth/**").permitAll() // nao precisa de token
       .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
-      .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
+      .requestMatchers(HttpMethod.POST, "/product").hasRole("ROLE_ADMIN")
       .anyRequest()
       .authenticated()
       .and()
